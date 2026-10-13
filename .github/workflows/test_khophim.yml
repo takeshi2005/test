@@ -21,5 +21,6 @@ jobs:
 
       - name: Run KhoPhim Diagnostics
         env:
+          KHOPHIM_BASE_URL: ${{ secrets.KHOPHIM_BASE_URL }}
           KHOPHIM_COOKIE: ${{ secrets.KHOPHIM_COOKIE }}
         run: python api/test_khophim_debug.py
