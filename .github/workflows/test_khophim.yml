@@ -16,11 +16,10 @@ jobs:
           python-version: '3.x'
 
       - name: Install Dependencies
-        run: |
-          pip install aiohttp
+        run: pip install aiohttp
 
       - name: Run KhoPhim Diagnostics
         env:
-          KHOPHIM_BASE_URL: ${{ secrets.KHOPHIM_BASE_URL }}
+          KHOPHIM_BASE_URL: https://khophim.huuvinh-brt.workers.dev
           KHOPHIM_COOKIE: ${{ secrets.KHOPHIM_COOKIE }}
         run: python api/test_khophim_debug.py
