@@ -46,6 +46,7 @@ DEFAULT_COOKIE = (
 )
 
 COOKIE = os.getenv("KHOPHIM_COOKIE") or DEFAULT_COOKIE
+BASE_URL = (os.getenv("KHOPHIM_BASE_URL") or "https://khophim.org").rstrip("/")
 
 
 async def test_endpoint(session: aiohttp.ClientSession, name: str, url: str, use_cookie: bool = True):
@@ -129,17 +130,17 @@ async def main():
     connector = aiohttp.TCPConnector(ssl=False)
     async with aiohttp.ClientSession(connector=connector) as session:
         # 1. Thử vào trang chủ
-        await test_endpoint(session, "1. Truy cập Trang chủ khophim.org", "https://khophim.org/", use_cookie=False)
+        await test_endpoint(session, "1. Truy cập Trang chủ", f"{BASE_URL}/", use_cookie=False)
 
         # 2. Thử Search API KHÔNG cookie
-        search_url = f"https://khophim.org/api/search?q={urllib.parse.quote(TEST_TITLE)}&limit=16"
+        search_url = f"{BASE_URL}/api/search?q={urllib.parse.quote(TEST_TITLE)}&limit=16"
         await test_endpoint(session, "2. Gọi API Search (KHÔNG cookie)", search_url, use_cookie=False)
 
         # 3. Thử Search API CÓ cookie
         await test_endpoint(session, "3. Gọi API Search (CÓ cookie)", search_url, use_cookie=True)
 
         # 4. Thử Movie Detail API KHÔNG cookie
-        detail_url = f"https://khophim.org/api/movie-detail?slug={TEST_SLUG}"
+        detail_url = f"{BASE_URL}/api/movie-detail?slug={TEST_SLUG}"
         await test_endpoint(session, "4. Gọi API Movie Detail (KHÔNG cookie)", detail_url, use_cookie=False)
 
         # 5. Thử Movie Detail API CÓ cookie
